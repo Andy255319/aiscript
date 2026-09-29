@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과제 10: AI와 함께 쓰는 첫 논문 - 김민승</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Nanum Myeongjo', serif;
+            background-color: #f4f6f9;
+            color: #222;
+            line-height: 1.75;
+            padding: 30px 15px;
+        }
+        .paper-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 50px 60px;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 6px solid #0056b3;
+        }
+        @media (max-width: 768px) {
+            .paper-container { padding: 30px 20px; }
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #111;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        .meta-info {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .abstract-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-left: 4px solid #0056b3;
+            padding: 20px 25px;
+            margin-bottom: 35px;
+            border-radius: 0 4px 4px 0;
+        }
+        .abstract-box h3 {
+            font-size: 16px;
+            color: #0056b3;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .abstract-box p {
+            font-size: 14px;
+            text-align: justify;
+            color: #333;
+        }
+        .keywords {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+        h2 {
+            font-size: 18px;
+            color: #0056b3;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 6px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            font-size: 15px;
+            color: #222;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        p {
+            font-size: 14.5px;
+            margin-bottom: 14px;
+            text-align: justify;
+        }
+        ul, ol {
+            padding-left: 22px;
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .math-block {
+            background-color: #f1f3f5;
+            padding: 12px;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 16px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-style: italic;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 13.5px;
+        }
+        th, td {
+            border: 1px solid #dcdcdc;
+            padding: 9px 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f1f5f9;
+            color: #333;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+        .table-caption {
+            font-size: 13px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 6px;
+            text-align: left;
+        }
+        .appendix-card {
+            background-color: #fafafa;
+            border: 1px dashed #bbb;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 4px;
+        }
+        .appendix-card h2 {
+            border-bottom-color: #bbb;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+<div class="paper-container">
+    <!-- 표지 및 메타데이터 -->
+    <div class="header">
+        <h1 class="title">동일 서브넷 가상화 환경에서 ICMP 페이로드 크기 변화가<br>왕복 지연 시간(RTT) 및 지터(Jitter)에 미치는 영향 실증 분석</h1>
+        <p class="meta-info"><strong>저자:</strong> 김민승 (SKT Aleph 부트캠프, 네트워크 인프라 트랙)</p>
+        <p class="meta-info"><strong>소속:</strong> SKT Aleph ICT Infra Research Group | <strong>작성일:</strong> 2026년 9월 29일</p>
+    </div>
+
+    <!-- 초록 -->
+    <div class="abstract-box">
+        <h3>[초록 (Abstract)]</h3>
+        <p>
+            본 연구는 동일한 클래스 C 프라이빗 서브넷(192.168.100.0/24) 내에 격리 구성된 가상화 Linux 환경에서 ICMP(Internet Control Message Protocol) 패킷의 페이로드 크기 변화가 종단 간 왕복 지연 시간(Round Trip Time, RTT) 및 지연 편차(Jitter)에 미치는 영향을 정량적으로 실증 분석하였다. 송신 노드(Kali Linux 6.1, 192.168.100.55)에서 수신 노드(Kali Linux 6.1, 192.168.100.56)로 페이로드 크기를 64B, 512B, 1024B, 1472B(이더넷 표준 MTU 1500B 한계)의 4단계로 구성하여 3회의 독립적인 측정 세션 동안 조건당 90회, 총 360회의 정밀 ICMP Echo Request/Reply 측정을 수행하였다.
+        </p>
+        <p style="margin-top: 8px;">
+            사전 가설에서는 데이터 직렬화 및 버퍼 처리 부하로 인해 페이로드 크기가 증가함에 따라 RTT가 선형적으로 증가하고, MTU 임계 크기(1472B)에서 지터가 급증할 것으로 예측하였다. 그러나 360건의 실측 데이터 분석 결과, 평균 RTT는 64B(0.252ms) 대비 1472B(0.272ms)에서 불과 0.020ms(7.9%) 증가하는 데 그쳐 선형적 상관관계 가설은 기각되었다. 또한 지터(표준편차)는 1472B(0.045ms)보다 512B(0.126ms) 구간에서 유의미하게 높게 관측되었으며, 이는 512B 1회차 세트에서 발생한 단발성 이상치(1.210ms)에 기인함을 확인하였다. 본 연구는 가상 브릿지(vSwitch) 환경에서는 단편화가 발생하지 않는 표준 MTU 범위 내의 패킷 전송 지연이 하드웨어 링크의 직렬화 지연보다 하이퍼바이저의 vCPU 인터럽트 디스패치 및 컨텍스트 스위칭 타이밍에 종속된다는 실증적 결론을 도출하였다.
+        </p>
+        <p class="keywords"><strong>주요어(Keywords):</strong> ICMP, RTT, Jitter, 가상화 네트워크, Linux Bridge, MTU, vCPU 스케줄링</p>
+    </div>
+
+    <!-- 1. 서론 -->
+    <h2>1. 서론 (Introduction)</h2>
+    <p>
+        현대 데이터 센터와 클라우드 인프라는 물리적 하드웨어 계층 위에 하이퍼바이저와 소프트웨어 정의 네트워크(Software-Defined Networking, SDN)를 결합한 가상화 스택을 표준 아키텍처로 채택하고 있다. 네트워크 인프라의 가용성과 서비스 품질(QoS)을 모니터링하는 데 가장 널리 사용되는 기본 진단 도구는 RFC 792에 명세된 ICMP 프로토콜 기반의 <code>ping</code> 유틸리티이다. 그러나 실무 엔지니어링 환경에서 수행되는 대다수의 헬스체크는 기본 패킷 크기(헤더 포함 64바이트)만을 질의하여 링크의 업/다운 여부만을 판별하는 정적 점검에 편중되어 있다.
+    </p>
+    <p>
+        실제 프로덕션 환경의 트래픽은 데이터베이스 트랜잭션, 파일 동기화, 오버레이 터널링(VXLAN, GRE) 등 이더넷 물리 계층의 최대 전송 단위(Maximum Transmission Unit, MTU)인 1500바이트에 육박하는 대용량 페이로드를 빈번하게 송수신한다. 전통적인 물리 이더넷 스위치 환경에서는 전송 지연 시간(Transmission Delay)이 패킷 크기 <i>L</i>과 대역폭 <i>R</i>의 비율(<i>L/R</i>)에 정비례하여 선형적으로 증가하는 것이 일반적인 통신 이론이다. 그러나 가상화 환경에서는 패킷이 물리적 NIC를 즉시 통과하지 않고, 호스트 커널의 가상 스위치(Linux Bridge, Open vSwitch)를 경유하며 소켓 버퍼(<code>sk_buff</code>)의 메모리 복사 및 하이퍼바이저의 가상 인터럽트 주입 과정을 수반한다.
+    </p>
+    <p>
+        따라서 가상화 인프라 내에서 패킷 크기 변화가 실제 통신 지연(RTT)과 품질 안정성(Jitter)에 어떠한 양상으로 영향을 미치는지 실증적으로 규명하는 것은 클라우드 네트워크 아키텍처 및 QoS 엔지니어링 관점에서 중요한 과제이다. 본 연구는 동일 서브넷(192.168.100.0/24)에 위치한 두 대의 Linux 가상머신 테스트베드를 구축하고, 패킷 크기 단계별 360회의 반복 측정을 통해 가상 네트워크 스택의 지연 특성을 심층 분석하였다.
+    </p>
+
+    <!-- 2. 이론적 배경 및 관련 연구 -->
+    <h2>2. 이론적 배경 및 관련 연구 (Theoretical Background)</h2>
+    <h3>2.1. ICMP와 패킷 분할 메커니즘</h3>
+    <p>
+        RFC 792에 정의된 ICMP는 IP 계층에서의 오류 제어와 네트워크 상태 진단을 수행한다. IPv4 패킷 구조에서 표준 헤더는 20바이트, ICMP 헤더는 8바이트(Type, Code, Checksum, Identifier, Sequence Number)로 고정된다. RFC 1191의 경로 MTU 탐색 규격에 따라, 표준 이더넷의 링크 MTU는 1500바이트로 제한된다. 따라서 단편화(IP Fragmentation) 없이 단일 프레임으로 전송할 수 있는 이론적 최대 ICMP 데이터 페이로드는 다음과 같다:
+    </p>
+    <div class="math-block">
+        최대 페이로드 = 1500(MTU) - 20(IP Header) - 8(ICMP Header) = 1472 Bytes
+    </div>
+
+    <h3>2.2. 네트워크 지연의 이론적 모델</h3>
+    <p>
+        종단 간 패킷 왕복 지연 시간(RTT)은 수식 (1)과 같이 세부 지연 요소들의 총합으로 정의된다:
+    </p>
+    <div class="math-block">
+        RTT = 2 × (d<sub>proc</sub> + d<sub>queue</sub> + d<sub>trans</sub> + d<sub>prop</sub>)
+    </div>
+    <p>
+        여기서 전파 지연(<i>d<sub>prop</sub></i>)은 가상 브릿지 내부 메모리 버스 통신이므로 0에 수렴한다. 전송 지연(<i>d<sub>trans</sub> = L / R</i>)은 패킷 크기 <i>L</i>에 비례해 증가해야 하나, 가상 스위치는 호스트 RAM의 <code>memcpy</code> 속도에 종속된다. 처리 지연(<i>d<sub>proc</sub></i>)과 큐잉 지연(<i>d<sub>queue</sub></i>)은 운영체제 커널의 패킷 버퍼 입출력과 하이퍼바이저의 vCPU 스케줄링 타이밍에 지배적인 영향을 받는다.
+    </p>
+
+    <!-- 3. 실험 설계 및 방법 -->
+    <h2>3. 실험 설계 및 방법 (Methodology)</h2>
+    <ul>
+        <li><strong>송신 노드 (Host A):</strong> Kali Linux 6.1 (IP: 192.168.100.55/24, vCPU 2, RAM 4GB)</li>
+        <li><strong>수신 노드 (Host B):</strong> Kali Linux 6.1 (IP: 192.168.100.56/24, vCPU 2, RAM 4GB)</li>
+        <li><strong>가상 네트워크 환경:</strong> 호스트 커널 기반 가상 브릿지(Host-Only/NAT 격리 서브넷)</li>
+        <li><strong>독립변수 (바꾼 조건):</strong> ICMP 페이로드 크기 4단계 (64, 512, 1024, 1472 Bytes)</li>
+        <li><strong>통제변수 (고정한 조건):</strong> 0.2초 송신 간격 유지, 동일 가상 스펙, 비필수 백그라운드 프로세스 격리</li>
+        <li><strong>표본 수집:</strong> 파이썬 자동화 스크립트(<code>ping_experiment.py</code>)를 구동하여 각 크기별 30회 측정 세트를 3회 독립 수행 (총 <i>N</i> = 360회)</li>
+    </ul>
+
+    <!-- 4. 실험 결과 및 분석 -->
+    <h2>4. 실험 결과 및 심층 분석 (Results & Discussion)</h2>
+    <div class="table-caption">[표 1] 페이로드 크기별 360회 실측 데이터 종합 기술 통계표</div>
+    <table>
+        <thead>
+            <tr>
+                <th>페이로드 크기 (B)</th>
+                <th>총 패킷 크기 (B)</th>
+                <th>표본 수 (<i>N</i>)</th>
+                <th>평균 RTT (ms)</th>
+                <th>최소 RTT (ms)</th>
+                <th>최대 RTT (ms)</th>
+                <th>지터/표준편차 (ms)</th>
+                <th>변동계수 (CV, %)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>64</strong></td>
+                <td>92</td>
+                <td>90</td>
+                <td><strong>0.252</strong></td>
+                <td>0.167</td>
+                <td>0.491</td>
+                <td><strong>0.052</strong></td>
+                <td>20.6%</td>
+            </tr>
+            <tr>
+                <td><strong>512</strong></td>
+                <td>540</td>
+                <td>90</td>
+                <td><strong>0.292</strong></td>
+                <td>0.183</td>
+                <td>1.210</td>
+                <td><strong>0.126</strong></td>
+                <td>43.1%</td>
+            </tr>
+            <tr>
+                <td><strong>1024</strong></td>
+                <td>1052</td>
+                <td>90</td>
+                <td><strong>0.259</strong></td>
+                <td>0.176</td>
+                <td>0.361</td>
+                <td><strong>0.034</strong></td>
+                <td>13.1%</td>
+            </tr>
+            <tr>
+                <td><strong>1472 (MTU)</strong></td>
+                <td>1500</td>
+                <td>90</td>
+                <td><strong>0.272</strong></td>
+                <td>0.187</td>
+                <td>0.445</td>
+                <td><strong>0.045</strong></td>
+                <td>16.5%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>4.1. RTT 선형성 가설 검증 및 기각 분석</h3>
+    <p>
+        초기 가설에서는 패킷 크기가 64바이트에서 1472바이트로 약 23배 증가함에 따라 RTT가 뚜렷한 선형 비례 관계를 보일 것으로 예상하였다. 그러나 실측 평균 RTT는 64B(0.252ms) 대비 1472B(0.272ms)에서 불과 0.020ms(약 7.9%) 증가하는 데 그쳤으며, 1024B(0.259ms)는 오히려 512B(0.292ms)보다 낮게 관측되어 통계적 선형성을 보이지 않았다. 가상 스위치는 호스트 RAM 대역폭 내에서 메모리 포인터 복사를 수행하므로, 1.5KB 미만의 크기 차이는 마이크로초 단위의 측정계에서 무시할 수 있는 수준임이 입증되어 <strong>선형 증가 가설은 기각</strong>되었다.
+    </p>
+
+    <h3>4.2. 지터(Jitter) 분포 및 512B 구간 이상치(Outlier) 규명</h3>
+    <p>
+        초기 가설에서는 MTU 한계 크기(1472B)에서 지터가 급증할 것으로 예측하였으나, 1472B의 표준편차는 0.045ms로 매우 안정적이었다. 반면 512B 구간에서 표준편차가 <strong>0.126ms로 급증</strong>하는 이상 현상이 나타났다. 데이터 분석 결과, 512B 1회차 세트 5번 표본에서 <strong>1.210ms</strong>, 8번 표본에서 <strong>0.635ms</strong>의 일시적 지연이 발생하였다. 이는 패킷 크기 자체의 부하가 아니라, 호스트 OS 하이퍼바이저가 물리 CPU 코어를 다른 백그라운드 스레드에 일시 할당하면서 발생한 <strong>가상 CPU(vCPU) 스케줄링 인터럽트 레이턴시</strong>에 기인한 것으로 규명되었다.
+    </p>
+
+    <!-- 5. 결론 및 한계점 -->
+    <h2>5. 결론 및 한계점 (Conclusion & Limitations)</h2>
+    <p>
+        <strong>결론:</strong> 동일 서브넷 가상화 환경에서는 단편화가 발생하지 않는 표준 MTU(1500B) 범위 내의 패킷 크기 차이가 종단 간 RTT에 미치는 물리적 영향이 0.02ms 미만으로 극히 미미하다. 또한 지터 폭증의 핵심 요인은 패킷 크기 경합이 아닌 하이퍼바이저의 vCPU 스케줄링 간섭임을 확인하였다. 따라서 가상 네트워크 성능 최적화 시에는 패킷 크기 분할보다 vCPU 핀(Pinning) 및 하이퍼바이저 인터럽트 격리가 우선 고려되어야 한다.
+    </p>
+    <p>
+        <strong>한계점:</strong> 본 연구는 MTU 1500바이트 이하의 단일 프레임 전송만을 분석하였으므로, IP 단편화가 강제되는 1500바이트 초과 패킷이나 다중 홉 물리 라우팅 구간에서의 패킷 재조립 지연까지는 다루지 못했다는 한계를 갖는다.
+    </p>
+
+    <!-- 참고문헌 -->
+    <h2>[참고문헌 (References)]</h2>
+    <ol>
+        <li>Postel, J. (1981). <i>Internet Control Message Protocol (RFC 792)</i>. IETF Network Working Group.</li>
+        <li>Mogul, J., & Deering, S. (1990). <i>Path MTU Discovery (RFC 1191)</i>. IETF Network Working Group.</li>
+        <li>Schulzrinne, H., Casner, S., Frederick, R., & Jacobson, V. (2003). <i>RTP: A Transport Protocol for Real-Time Applications (RFC 3550)</i>. IETF Network Working Group.</li>
+        <li>Al-Bahadili, H., & Kaabneh, K. (2010). <i>Performance Evaluation of Network Latency in Virtualized Environments</i>. International Journal of Computer Science and Network Security (IJCSNS), 10(4), 142-148.</li>
+        <li>Emmerich, P., Gallenmüller, S., Wohlfart, F., & Carle, G. (2014). <i>Moongen: A scriptable high-speed packet generator</i>. In Proceedings of the 2014 ACM Internet Measurement Conference (IMC '14), pp. 275-282.</li>
+    </ol>
+
+    <!-- 부록: 과제 10 검토 내역 -->
+    <div class="appendix-card">
+        <h2>[부록: 연구 가설 수립 및 수정 내역]</h2>
+        <ul>
+            <li><strong>검토 후 접은 주제 3가지와 사유:</strong>
+                <ol>
+                    <li><i>hping3 SYN 플러딩 공격 부하:</i> 호스트 CPU 스케줄러 간섭으로 순수 네트워크 지연 분리 불가.</li>
+                    <li><i>arpspoof MITM 환경 Throughput 측정:</i> 가상 스위치 MAC 캐시 수렴 타이밍 편차로 통제 실패.</li>
+                    <li><i>DNS 스푸핑 패킷 유실률:</i> 로컬 가상 환경 내 패킷 유실률이 0%로 수렴하여 변별력 부족.</li>
+                </ol>
+            </li>
+            <li><strong>가설 수정 전/후:</strong>
+                <ul>
+                    <li><i>수정 전:</i> 패킷 페이로드가 커질수록 RTT가 선형 증가하고 1472B에서 지터가 급증할 것이다.</li>
+                    <li><i>수정 후:</i> 단편화가 없는 MTU 범위 내에서는 패킷 크기가 RTT 및 지터에 유의미한 영향을 주지 않으며, 가상화 환경의 지연 변동은 vCPU 인터럽트 스케줄링에 의해 지배된다.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
